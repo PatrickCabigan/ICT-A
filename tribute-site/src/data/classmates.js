@@ -24,6 +24,7 @@ const people = [
   ['Cereno, Jairo'],
   ['Dela Cruz, Jania'],
   ['Delos Santos, Rimmuel'],
+  ['El Monajed, Benzhar'], // <--- Added right here in alphabetical order!
   ['Esparas, Christian Josh'],
   ['Estosane, Mariel'],
   ['Evardo, Dinalyn'],
@@ -50,9 +51,12 @@ const people = [
   ['Tuazon, Melchi'],
 ]
 
+
 export const classmates = people.map(([name, note = '', photo = ''], i) => ({
   name,
   note,
   nickname: '',
-  photo: photo || `/images/cast/${String(i + 1).padStart(2, '0')}.${EXT}`,
+  // Change single quotes (') to backticks (`) so the \${} expression evaluates correctly!
+photo: photo || `/images/cast/${String(i + 1).padStart(2, '0')}.${EXT}`,
+
 }))
