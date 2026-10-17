@@ -18,12 +18,21 @@ export const stages = [
   },
   {
     id: 'day-one',
-    kind: 'story',
-    title: 'Grade 11: Day One',
-    date: 'G11 2022',
-    palette: ['#2d4a6b', '#6f8fa0', '#e8c07a'],
-    copy: ['New faces, new seats, and nobody sure where anything was.', 'This is where the story starts.'],
-    photos: blank(8),
+  kind: 'story',
+  title: 'Grade 11: Day One',
+  date: 'G11 2022',
+  palette: ['#2d4a6b', '#6f8fa0', '#e8c07a'],
+  copy: ['New faces, new seats, and nobody sure where anything was.', 'This is where the story starts.'],
+  photos: [
+       { src: '/images/stories/day-one/1.jpg', caption: 'Singkong Duleng' },
+      { src: '/images/stories/day-one/2.jpg', caption: 'Piña for Sales' },
+      { src: '/images/stories/day-one/3.jpg', caption: 'Galaw Pilipinas' },
+      { src: '/images/stories/day-one/4.jpg', caption: 'Statue of ICT?' },
+      { src: '/images/stories/day-one/5.jpg', caption: 'La Peace' },
+      { src: '/images/stories/day-one/6.jpg', caption: 'Helmeet' },
+      { src: '/images/stories/day-one/7.jpg', caption: '1st Meet' },
+      { src: '/images/stories/day-one/8.jpg', caption: '👀' }
+    ],
   },
   {
     id: 'settling-in',
