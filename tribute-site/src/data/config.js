@@ -1,7 +1,7 @@
 // Edit the text here. Everything on the site that is "about you" lives in this file.
 export const config = {
-  sectionName: 'Your Section Name',
-  school: 'Your School Name',
+  sectionName: 'ICT-A',
+  school: 'Signal Village National High School',
   batch: '2022 to 2024',
   strand: 'Grade 11 and 12',
 
@@ -18,8 +18,8 @@ export const config = {
 
   // The easter egg: press REC at the top of the screen to see this.
   creator: {
-    name: 'Your Name',
-    github: 'https://github.com/your-username',
-    githubLabel: 'github.com/your-username',
+    name: 'John Patrick Cabigan',
+    github: 'https://github.com/PatrickCabigan',
+    githubLabel: 'https://github.com/PatrickCabigan',
   },
 }

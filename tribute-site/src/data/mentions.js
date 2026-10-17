@@ -1,7 +1,7 @@
 // People who deserve a special mention. photo is optional (path or URL).
 export const mentions = [
-  { name: 'Adviser Name', role: 'Our class adviser', photo: '' },
-  { name: 'Teacher Name', role: 'Subject teacher', photo: '' },
-  { name: 'Name Here', role: 'Behind the camera', photo: '' },
-  { name: 'Name Here', role: 'Made the tributes possible', photo: '' },
+  { name: 'Mrs. Heide Amistoso', role: 'Our class adviser Grade 11', photo: '' },
+  { name: 'Sir. Ronald Cagampan', role: 'Our class adviser Grade 12', photo: '' },
+  { name: 'Sir. Jonathan Nonato', role: 'CCS Teacher', photo: '' },
+  { name: 'Sir. Kervy Cammagay', role: 'CSS Teacher', photo: '' },
 ]
