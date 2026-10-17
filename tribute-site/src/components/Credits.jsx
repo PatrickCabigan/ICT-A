@@ -1,7 +1,7 @@
 import { config } from '../data/config'
 
 export default function Credits({ people, isActive }) {
-  const duration = 16 + people.length * 1.4
+  const duration = 14 + people.length * 1.2
 
   return (
     <div className={`credits${isActive ? ' run' : ''}`} style={{ '--dur': `${duration}s` }}>
@@ -24,6 +24,7 @@ export default function Credits({ people, isActive }) {
       <div className="endcard">
         <p>The end.</p>
         <p>Or maybe the beginning.</p>
+        <p className="psst">Psst. Try pressing REC at the top.</p>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import Walker from './Walker.jsx'
+import Logo from './Logo.jsx'
 
-export default function Hud({ stages, active, goTo, batch }) {
+export default function Hud({ stages, active, goTo, batch, onSecret }) {
   const n = stages.length
   const stage = stages[active]
 
@@ -8,10 +9,11 @@ export default function Hud({ stages, active, goTo, batch }) {
     <>
       <header className="bar bar-top">
         <div className="hud-group">
-          <span className="rec">
+          <Logo className="seal-sm" />
+          <button type="button" className="rec" onClick={onSecret} aria-label="Who made this site">
             <i className="rec-dot" aria-hidden="true" />
             REC
-          </span>
+          </button>
           <span className="stamp">{stage.date}</span>
         </div>
         <div className="hud-mid">{batch}</div>

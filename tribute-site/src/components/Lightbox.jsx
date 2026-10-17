@@ -1,38 +1,34 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useModal } from '../hooks/useModal'
 
 export default function Lightbox({ item, onClose }) {
   const wrapRef = useRef(null)
   const closeRef = useRef(null)
+  const touchX = useRef(null)
+  const [index, setIndex] = useState(item.index)
+  const [moved, setMoved] = useState(false)
+  const count = item.list.length
+
+  const go = useCallback(
+    (step) => {
+      setMoved(true)
+      setIndex((i) => (i + step + count) % count)
+    },
+    [count],
+  )
+
+  useModal(wrapRef, onClose, closeRef)
 
   useEffect(() => {
-    const previous = document.activeElement
-    const wrap = wrapRef.current
-    document.body.dataset.lock = '1'
-    if (closeRef.current) closeRef.current.focus()
-
-    const stop = (e) => e.preventDefault()
-    wrap.addEventListener('wheel', stop, { passive: false })
-    wrap.addEventListener('touchmove', stop, { passive: false })
-
     const onKey = (e) => {
-      if (e.key === 'Escape') onClose()
-      if (e.key === 'Tab') {
-        e.preventDefault()
-        if (closeRef.current) closeRef.current.focus()
-      }
+      if (e.key === 'ArrowRight') go(1)
+      if (e.key === 'ArrowLeft') go(-1)
     }
     window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [go])
 
-    return () => {
-      delete document.body.dataset.lock
-      wrap.removeEventListener('wheel', stop)
-      wrap.removeEventListener('touchmove', stop)
-      window.removeEventListener('keydown', onKey)
-      if (previous && previous.focus) previous.focus({ preventScroll: true })
-    }
-  }, [onClose])
-
-  const { photo, slot } = item
+  const { photo, r } = item.list[index]
 
   return (
     <div
@@ -42,8 +38,22 @@ export default function Lightbox({ item, onClose }) {
       aria-modal="true"
       aria-label={photo.caption || 'Photo'}
       onClick={onClose}
+      onTouchStart={(e) => {
+        touchX.current = e.touches[0].clientX
+      }}
+      onTouchEnd={(e) => {
+        if (touchX.current === null || count < 2) return
+        const delta = e.changedTouches[0].clientX - touchX.current
+        touchX.current = null
+        if (Math.abs(delta) > 50) go(delta < 0 ? 1 : -1)
+      }}
     >
-      <figure className="lb-card" style={{ '--r': `${slot.r}deg` }} onClick={(e) => e.stopPropagation()}>
+      <figure
+        key={index}
+        className={`lb-card${moved ? ' quick' : ''}`}
+        style={{ '--r': `${r}deg` }}
+        onClick={(e) => e.stopPropagation()}
+      >
         {photo.src ? (
           <img src={photo.src} alt={photo.alt || photo.caption || ''} draggable="false" />
         ) : (
@@ -51,6 +61,25 @@ export default function Lightbox({ item, onClose }) {
         )}
         {photo.caption ? <figcaption>{photo.caption}</figcaption> : null}
       </figure>
+
+      <div className="lb-controls" onClick={(e) => e.stopPropagation()}>
+        {count > 1 ? (
+          <button type="button" className="lb-nav" onClick={() => go(-1)}>
+            Previous
+          </button>
+        ) : null}
+        {count > 1 ? (
+          <span className="lb-count">
+            {index + 1} of {count}
+          </span>
+        ) : null}
+        {count > 1 ? (
+          <button type="button" className="lb-nav" onClick={() => go(1)}>
+            Next
+          </button>
+        ) : null}
+      </div>
+
       <button type="button" className="lb-close" ref={closeRef} onClick={onClose}>
         Close
       </button>

@@ -85,6 +85,9 @@ export function useJourney({ rootRef, stages, onActive }) {
         if (dd > 2.2 || dd < -2.2) continue
         const d = Number(el.dataset.depth)
         let x = (d - 1) * dd * vw
+        // Photos that have already passed must leave with the world, never lag behind
+        // into the next stage (slow-depth photos used to drift over the next title).
+        if (el.dataset.toss !== undefined && dd < 0) x = Math.min(0, x)
         let y = 0
         let rot = 0
         let scale = 1

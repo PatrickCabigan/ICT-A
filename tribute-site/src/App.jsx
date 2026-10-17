@@ -3,6 +3,7 @@ import Scenery from './components/Scenery.jsx'
 import Stage from './components/Stage.jsx'
 import Hud from './components/Hud.jsx'
 import Lightbox from './components/Lightbox.jsx'
+import Slate from './components/Slate.jsx'
 import { stages } from './data/stages'
 import { config } from './data/config'
 import { useJourney } from './hooks/useJourney'
@@ -14,6 +15,7 @@ export default function App() {
   const [cut, setCut] = useState(0)
   const [booted, setBooted] = useState(false)
   const [lightbox, setLightbox] = useState(null)
+  const [slate, setSlate] = useState(false)
 
   useEffect(() => {
     const t = setTimeout(() => setBooted(true), 3200)
@@ -29,8 +31,10 @@ export default function App() {
 
   const goTo = useJourney({ rootRef, stages, onActive: handleActive })
 
-  const openPhoto = useCallback((photo, slot) => setLightbox({ photo, slot }), [])
+  const openPhoto = useCallback((list, index) => setLightbox({ list, index }), [])
   const closePhoto = useCallback(() => setLightbox(null), [])
+  const openSlate = useCallback(() => setSlate(true), [])
+  const closeSlate = useCallback(() => setSlate(false), [])
 
   // Keyboard users tabbing into an off-screen stage should bring that stage into view.
   const onFocusCapture = (e) => {
@@ -58,13 +62,14 @@ export default function App() {
             />
           ))}
         </div>
-        <Hud stages={stages} active={active} goTo={goTo} batch={config.batch} />
+        <Hud stages={stages} active={active} goTo={goTo} batch={config.batch} onSecret={openSlate} />
         <div className="vignette" aria-hidden="true" />
         <div className="grain" aria-hidden="true" />
         <div className="flicker" aria-hidden="true" />
         {cut > 0 ? <div key={cut} className="flash" aria-hidden="true" /> : null}
       </div>
       {lightbox ? <Lightbox item={lightbox} onClose={closePhoto} /> : null}
+      {slate ? <Slate onClose={closeSlate} /> : null}
     </main>
   )
 }

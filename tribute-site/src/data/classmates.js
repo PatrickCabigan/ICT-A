@@ -1,12 +1,9 @@
 // The credits roll in this order. nickname and photo are optional.
-// photo: image path or URL (a small square crop works best).
-export const classmates = [
-  { name: 'Classmate Name 1', nickname: '', photo: '' },
-  { name: 'Classmate Name 2', nickname: '', photo: '' },
-  { name: 'Classmate Name 3', nickname: '', photo: '' },
-  { name: 'Classmate Name 4', nickname: '', photo: '' },
-  { name: 'Classmate Name 5', nickname: '', photo: '' },
-  { name: 'Classmate Name 6', nickname: '', photo: '' },
-  { name: 'Classmate Name 7', nickname: '', photo: '' },
-  { name: 'Classmate Name 8', nickname: '', photo: '' },
-]
+// Replace these placeholders with your real classmates. Example of a finished entry:
+//   { name: 'Juan Dela Cruz', nickname: 'JD', photo: '/images/cast/juan.webp' }
+// Put the small square photos in public/images/cast/ (around 200px is enough).
+export const classmates = Array.from({ length: 40 }, (_, i) => ({
+  name: `Classmate Name ${i + 1}`,
+  nickname: '',
+  photo: '',
+}))

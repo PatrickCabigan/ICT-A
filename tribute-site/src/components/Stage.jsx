@@ -1,29 +1,13 @@
 import Photo from './Photo.jsx'
 import Vault from './Vault.jsx'
 import Credits from './Credits.jsx'
+import Mentions from './Mentions.jsx'
+import Logo from './Logo.jsx'
 import { config } from '../data/config'
 import { videos } from '../data/videos'
 import { classmates } from '../data/classmates'
-
-// x, y: position on landscape screens (% of stage). mx, my: position on portrait phones.
-// d: depth (parallax speed). lag: how early the photo settles. r: tilt in degrees.
-const SLOTS = {
-  a: [
-    { x: 42, y: 16, mx: 5, my: 44, r: -5, d: 0.78, lag: 0.1 },
-    { x: 66, y: 30, mx: 50, my: 48, r: 4, d: 1.15, lag: 0.25 },
-    { x: 50, y: 52, mx: 27, my: 66, r: -2, d: 0.62, lag: 0.4 },
-  ],
-  b: [
-    { x: 60, y: 14, mx: 50, my: 44, r: 3, d: 0.7, lag: 0.1 },
-    { x: 40, y: 36, mx: 8, my: 50, r: -4, d: 0.55, lag: 0.3 },
-    { x: 72, y: 46, mx: 30, my: 66, r: 6, d: 1.2, lag: 0.4 },
-  ],
-  c: [
-    { x: 44, y: 14, mx: 6, my: 46, r: -3, d: 0.9, lag: 0.1 },
-    { x: 70, y: 20, mx: 52, my: 46, r: 5, d: 1.2, lag: 0.28 },
-    { x: 58, y: 50, mx: 28, my: 66, r: 2, d: 0.6, lag: 0.42 },
-  ],
-}
+import { mentions } from '../data/mentions'
+import { scatter } from '../lib/layout'
 
 function Title({ text }) {
   return (
@@ -59,9 +43,17 @@ const SPARKS = Array.from({ length: 14 }, (_, i) => {
 })
 
 export default function Stage({ stage, index, isActive, booted, goTo, onOpen }) {
-  const slots = SLOTS[stage.layout] || SLOTS.a
+  const layout = scatter(stage.photos.length, index + 1)
+  const list = stage.photos.map((photo, k) => ({ photo, r: layout.slots[k].r }))
   const photos = stage.photos.map((photo, k) => (
-    <Photo key={k} photo={photo} slot={slots[k % slots.length]} stageIndex={index} order={k} onOpen={onOpen} />
+    <Photo
+      key={k}
+      photo={photo}
+      slot={layout.slots[k]}
+      stageIndex={index}
+      order={k}
+      onOpen={() => onOpen(list, k)}
+    />
   ))
 
   const style = {
@@ -69,6 +61,8 @@ export default function Stage({ stage, index, isActive, booted, goTo, onOpen }) 
     '--p-top': stage.palette[0],
     '--p-mid': stage.palette[1],
     '--p-bot': stage.palette[2],
+    '--pwl': layout.pwl,
+    '--pwm': layout.pwm,
   }
 
   let body
@@ -76,6 +70,7 @@ export default function Stage({ stage, index, isActive, booted, goTo, onOpen }) 
     case 'intro':
       body = (
         <div className="stage-text" data-depth="0.9" data-i={index}>
+          <Logo className="seal-lg" />
           <Title text={stage.title} />
           <div className="copy">
             <p style={{ '--j': 0 }}>
@@ -138,6 +133,17 @@ export default function Stage({ stage, index, isActive, booted, goTo, onOpen }) 
             <Copy lines={stage.copy} />
           </div>
           <Vault videos={videos} stageIndex={index} />
+        </>
+      )
+      break
+    case 'mentions':
+      body = (
+        <>
+          <div className="stage-text" data-depth="0.86" data-i={index}>
+            <Title text={stage.title} />
+            <Copy lines={stage.copy} />
+          </div>
+          <Mentions people={mentions} stageIndex={index} />
         </>
       )
       break

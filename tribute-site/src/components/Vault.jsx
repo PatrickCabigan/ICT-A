@@ -53,7 +53,7 @@ function Tape({ video, order, stageIndex }) {
 
 export default function Vault({ videos, stageIndex }) {
   return (
-    <ul className="tapes">
+    <ul className={`tapes${videos.length <= 3 ? ' few' : ''}`} style={{ '--cols': Math.min(videos.length, 3) }}>
       {videos.map((v, i) => (
         <Tape key={`${v.title}-${i}`} video={v} order={i} stageIndex={stageIndex} />
       ))}
