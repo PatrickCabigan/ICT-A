@@ -11,8 +11,8 @@ export const config = {
 
   // Shown in the Graduation stage. One string per paragraph.
   finalMessage: [
-    'Write your message to the section here. Two or three short paragraphs work best.',
-    'Thank everyone, mention what you will remember most, and sign off.',
+    "Hey guys! Crazy to think it's already been two years since we graduated. Looking back at all these photos brings back so many good memories.",
+    "Thank you everyone for making our high school days unforgettable. Miss you all!"
   ],
   signOff: 'Your name',
 
